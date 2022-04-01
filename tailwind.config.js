@@ -5,7 +5,7 @@ module.exports = {
   purge: [
     // prettier-ignore
     './resources/**/*.blade.php',
-    './resources/**/*.js',
+    './resources/**/*.ts',
     './resources/**/*.vue',
   ],
   darkMode: false, // or 'media' or 'class'

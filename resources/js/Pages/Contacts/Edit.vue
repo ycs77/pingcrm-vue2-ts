@@ -37,15 +37,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { Head, Link } from '@inertiajs/inertia-vue'
-import Layout from '@/Shared/Layout'
-import TextInput from '@/Shared/TextInput'
-import SelectInput from '@/Shared/SelectInput'
-import LoadingButton from '@/Shared/LoadingButton'
-import TrashedMessage from '@/Shared/TrashedMessage'
+import Layout from '@/Shared/Layout.vue'
+import TextInput from '@/Shared/TextInput.vue'
+import SelectInput from '@/Shared/SelectInput.vue'
+import LoadingButton from '@/Shared/LoadingButton.vue'
+import TrashedMessage from '@/Shared/TrashedMessage.vue'
 
-export default {
+export default Vue.extend({
   components: {
     Head,
     Link,
@@ -91,5 +92,5 @@ export default {
       }
     },
   },
-}
+})
 </script>

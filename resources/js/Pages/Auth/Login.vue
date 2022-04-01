@@ -22,13 +22,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { Head } from '@inertiajs/inertia-vue'
-import Logo from '@/Shared/Logo'
-import TextInput from '@/Shared/TextInput'
-import LoadingButton from '@/Shared/LoadingButton'
+import Logo from '@/Shared/Logo.vue'
+import TextInput from '@/Shared/TextInput.vue'
+import LoadingButton from '@/Shared/LoadingButton.vue'
 
-export default {
+export default Vue.extend({
   components: {
     Head,
     LoadingButton,
@@ -49,5 +50,5 @@ export default {
       this.form.post('/login')
     },
   },
-}
+})
 </script>

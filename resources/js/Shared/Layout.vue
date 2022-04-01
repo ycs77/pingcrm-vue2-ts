@@ -1,6 +1,8 @@
 <template>
   <div>
-    <portal-target name="dropdown" slim />
+    <client-only>
+      <portal-target name="dropdown" slim />
+    </client-only>
     <div class="md:flex md:flex-col">
       <div class="md:flex md:flex-col md:h-screen">
         <div class="md:flex md:flex-shrink-0">
@@ -53,18 +55,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { Link } from '@inertiajs/inertia-vue'
-import Icon from '@/Shared/Icon'
-import Logo from '@/Shared/Logo'
-import Dropdown from '@/Shared/Dropdown'
-import MainMenu from '@/Shared/MainMenu'
-import FlashMessages from '@/Shared/FlashMessages'
+import ClientOnly from 'vue-client-only'
+import Icon from '@/Shared/Icon.vue'
+import Logo from '@/Shared/Logo.vue'
+import Dropdown from '@/Shared/Dropdown.vue'
+import MainMenu from '@/Shared/MainMenu.vue'
+import FlashMessages from '@/Shared/FlashMessages.vue'
 
-export default {
+export default Vue.extend({
   components: {
     Dropdown,
     FlashMessages,
+    ClientOnly,
     Icon,
     Link,
     Logo,
@@ -73,5 +78,5 @@ export default {
   props: {
     auth: Object,
   },
-}
+})
 </script>

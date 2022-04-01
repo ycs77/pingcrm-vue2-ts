@@ -4,7 +4,7 @@ const webpackConfig = require('./webpack.config')
 
 mix
   .options({ manifest: false })
-  .js('resources/js/ssr.js', 'public/js')
+  .ts('resources/js/ssr.ts', 'public/js', { transpileOnly: true })
   .vue({ version: 2, options: { optimizeSSR: true } })
   .webpackConfig({
     ...webpackConfig,

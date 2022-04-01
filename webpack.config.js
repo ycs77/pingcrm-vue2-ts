@@ -6,8 +6,9 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve('./resources/js'),
+      '@vue/composition-api$': path.resolve('./node_modules/@vue/composition-api/dist/vue-composition-api.mjs'),
     },
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.ts', '.vue', '.json'],
   },
   devServer: {
     allowedHosts: 'all',

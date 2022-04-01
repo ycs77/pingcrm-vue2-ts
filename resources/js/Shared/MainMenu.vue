@@ -27,23 +27,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { Link } from '@inertiajs/inertia-vue'
-import Icon from '@/Shared/Icon'
+import Icon from '@/Shared/Icon.vue'
 
-export default {
+export default Vue.extend({
   components: {
     Icon,
     Link,
   },
   methods: {
-    isUrl(...urls) {
+    isUrl(...urls: string[]): boolean {
       let currentUrl = this.$page.url.substr(1)
       if (urls[0] === '') {
         return currentUrl === ''
       }
-      return urls.filter((url) => currentUrl.startsWith(url)).length
+      return !!urls.filter((url) => currentUrl.startsWith(url)).length
     },
   },
-}
+})
 </script>

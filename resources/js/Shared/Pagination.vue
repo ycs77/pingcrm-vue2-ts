@@ -9,15 +9,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { Link } from '@inertiajs/inertia-vue'
 
-export default {
+export default Vue.extend({
   components: {
     Link,
   },
   props: {
     links: Array,
   },
-}
+})
 </script>

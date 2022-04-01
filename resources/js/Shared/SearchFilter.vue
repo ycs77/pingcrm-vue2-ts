@@ -22,10 +22,11 @@
   </div>
 </template>
 
-<script>
-import Dropdown from '@/Shared/Dropdown'
+<script lang="ts">
+import Vue from 'vue'
+import Dropdown from '@/Shared/Dropdown.vue'
 
-export default {
+export default Vue.extend({
   components: {
     Dropdown,
   },
@@ -36,6 +37,5 @@ export default {
       default: 300,
     },
   },
-  emits: ['input', 'reset'],
-}
+})
 </script>

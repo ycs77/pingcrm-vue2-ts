@@ -1,4 +1,8 @@
-# Ping CRM (Vue 2 version)
+# Ping CRM (Vue 2 Options API x TS)
+
+PingCRM Vue x TS：Options API demo | [Composition API demo](https://github.com/ycs77/pingcrm-vue2-ts/tree/compsition-api)
+
+---
 
 A demo application to illustrate how Inertia.js works.
 
@@ -9,8 +13,8 @@ A demo application to illustrate how Inertia.js works.
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/inertiajs/pingcrm-vue2.git pingcrm-vue2
-cd pingcrm-vue2
+git clone https://github.com/ycs77/pingcrm-vue2-ts.git
+cd pingcrm-vue2-ts
 ```
 
 Install PHP dependencies:
@@ -22,13 +26,13 @@ composer install
 Install NPM dependencies:
 
 ```sh
-npm ci
+yarn
 ```
 
 Build assets:
 
 ```sh
-npm run dev
+yarn dev
 ```
 
 Setup configuration:
@@ -65,6 +69,12 @@ Run the dev server (the output will give the address):
 
 ```sh
 php artisan serve
+```
+
+Run the SSR server:
+
+```sh
+yarn ssr:serve
 ```
 
 You're ready to go! Visit Ping CRM in your browser, and login with:

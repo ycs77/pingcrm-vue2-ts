@@ -6,10 +6,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { v4 as uuid } from 'uuid'
 
-export default {
+export default Vue.extend({
   inheritAttrs: false,
   props: {
     id: {
@@ -22,14 +23,13 @@ export default {
     label: String,
     value: String,
   },
-  emits: ['input'],
   methods: {
     focus() {
-      this.$refs.input.focus()
+      (this.$refs.input as HTMLInputElement).focus()
     },
     select() {
-      this.$refs.input.select()
+      (this.$refs.input as HTMLInputElement).select()
     },
   },
-}
+})
 </script>

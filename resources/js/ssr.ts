@@ -1,3 +1,4 @@
+import './global'
 import Vue from 'vue'
 import { createRenderer } from 'vue-server-renderer'
 import { createInertiaApp } from '@inertiajs/inertia-vue'
