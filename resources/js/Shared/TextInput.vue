@@ -1,23 +1,21 @@
 <template>
   <div>
     <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-    <input :id="id" ref="input" v-bind="$attrs" class="form-input" :class="{ error: error }" :type="type" :value="value" @input="$emit('input', $event.target.value)" />
+    <input :id="id" ref="inputRef" v-bind="$attrs" class="form-input" :class="{ error: error }" :type="type" :value="value" @input="$emit('input', $event.target.value)" />
     <div v-if="error" class="form-error">{{ error }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent, ref, PropType } from '@vue/composition-api'
 import { v4 as uuid } from 'uuid'
 
-export default Vue.extend({
+export default defineComponent({
   inheritAttrs: false,
   props: {
     id: {
       type: String,
-      default() {
-        return `text-input-${uuid()}`
-      },
+      default: () => `text-input-${uuid()}`,
     },
     type: {
       type: String,
@@ -25,18 +23,23 @@ export default Vue.extend({
     },
     error: String,
     label: String,
-    value: String,
+    value: String as PropType<string | null>,
   },
-  methods: {
-    focus() {
-      (this.$refs.input as HTMLInputElement).focus()
-    },
-    select() {
-      (this.$refs.input as HTMLInputElement).select()
-    },
-    setSelectionRange(start: number, end: number) {
-      (this.$refs.input as HTMLInputElement).setSelectionRange(start, end)
-    },
+  emits: ['input'],
+  setup() {
+    const inputRef = ref<HTMLInputElement>(null!)
+
+    const focus = () => {
+      inputRef.value.focus()
+    }
+    const select = () => {
+      inputRef.value.select()
+    }
+    const setSelectionRange = (start: number, end: number) => {
+      inputRef.value.setSelectionRange(start, end)
+    }
+
+    return { inputRef, focus, select, setSelectionRange }
   },
 })
 </script>

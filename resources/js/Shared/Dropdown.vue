@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, ref, watch, onMounted, nextTick, PropType, Ref } from '@vue/composition-api'
 import { createPopper, Instance, Placement } from '@popperjs/core'
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     placement: {
       type: String as PropType<Placement>,
@@ -27,18 +27,17 @@ export default Vue.extend({
       default: true,
     },
   },
-  data() {
-    return {
-      show: false,
-      popper: null as Instance | null,
-    }
-  },
-  watch: {
-    show(show) {
+  setup(props) {
+    const show = ref(false)
+    const popper = ref(null) as Ref<Instance | null>
+    const buttonRef = ref<HTMLElement>(null!)
+    const dropdownRef = ref<HTMLElement>(null!)
+
+    watch(show, (show) => {
       if (show) {
-        this.$nextTick(() => {
-          this.popper = createPopper(this.$el, this.$refs.dropdown as HTMLElement, {
-            placement: this.placement,
+        nextTick(() => {
+          popper.value = createPopper(buttonRef.value, dropdownRef.value, {
+            placement: props.placement,
             modifiers: [
               {
                 name: 'preventOverflow',
@@ -49,17 +48,20 @@ export default Vue.extend({
             ],
           })
         })
-      } else if (this.popper) {
-        setTimeout(() => this.popper?.destroy(), 100)
-      }
-    },
-  },
-  mounted() {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.show = false
+      } else if (popper.value) {
+        setTimeout(() => popper.value?.destroy(), 100)
       }
     })
+
+    onMounted(() => {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          show.value = false
+        }
+      })
+    })
+
+    return { show, popper, buttonRef, dropdownRef }
   },
 })
 </script>

@@ -73,8 +73,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Head, Link } from '@inertiajs/inertia-vue'
+import { defineComponent, PropType } from '@vue/composition-api'
+import { Inertia } from '@inertiajs/inertia'
+import { Head, Link, useForm } from '@inertiajs/inertia-vue'
 import Icon from '@/Shared/Icon.vue'
 import Layout from '@/Shared/Layout.vue'
 import TextInput from '@/Shared/TextInput.vue'
@@ -82,7 +83,7 @@ import SelectInput from '@/Shared/SelectInput.vue'
 import LoadingButton from '@/Shared/LoadingButton.vue'
 import TrashedMessage from '@/Shared/TrashedMessage.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Head,
     Icon,
@@ -94,37 +95,41 @@ export default Vue.extend({
   },
   layout: Layout,
   props: {
-    organization: Object,
+    organization: {
+      /* eslint-disable no-undef */
+      type: Object as PropType<App.Models.Organization>,
+      required: true,
+    },
   },
-  remember: 'form',
-  data() {
-    return {
-      form: this.$inertia.form({
-        name: this.organization.name,
-        email: this.organization.email,
-        phone: this.organization.phone,
-        address: this.organization.address,
-        city: this.organization.city,
-        region: this.organization.region,
-        country: this.organization.country,
-        postal_code: this.organization.postal_code,
-      }),
+  setup(props) {
+    const form = useForm('default', {
+      name: props.organization.name,
+      email: props.organization.email,
+      phone: props.organization.phone,
+      address: props.organization.address,
+      city: props.organization.city,
+      region: props.organization.region,
+      country: props.organization.country,
+      postal_code: props.organization.postal_code,
+    })
+
+    const update = () => {
+      form.put(`/organizations/${props.organization.id}`)
     }
-  },
-  methods: {
-    update() {
-      this.form.put(`/organizations/${this.organization.id}`)
-    },
-    destroy() {
+
+    const destroy = () => {
       if (confirm('Are you sure you want to delete this organization?')) {
-        this.$inertia.delete(`/organizations/${this.organization.id}`)
+        Inertia.delete(`/organizations/${props.organization.id}`)
       }
-    },
-    restore() {
+    }
+
+    const restore = () => {
       if (confirm('Are you sure you want to restore this organization?')) {
-        this.$inertia.put(`/organizations/${this.organization.id}/restore`)
+        Inertia.put(`/organizations/${props.organization.id}/restore`)
       }
-    },
+    }
+
+    return { form, update, destroy, restore }
   },
 })
 </script>

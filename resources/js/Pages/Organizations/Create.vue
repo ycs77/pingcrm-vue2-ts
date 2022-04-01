@@ -30,14 +30,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Head, Link } from '@inertiajs/inertia-vue'
+import { defineComponent } from '@vue/composition-api'
+import { Head, Link, useForm } from '@inertiajs/inertia-vue'
 import Layout from '@/Shared/Layout.vue'
 import TextInput from '@/Shared/TextInput.vue'
 import SelectInput from '@/Shared/SelectInput.vue'
 import LoadingButton from '@/Shared/LoadingButton.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Head,
     Link,
@@ -46,25 +46,23 @@ export default Vue.extend({
     TextInput,
   },
   layout: Layout,
-  remember: 'form',
-  data() {
-    return {
-      form: this.$inertia.form({
-        name: null,
-        email: null,
-        phone: null,
-        address: null,
-        city: null,
-        region: null,
-        country: null,
-        postal_code: null,
-      }),
+  setup() {
+    const form = useForm('default', {
+      name: null,
+      email: null,
+      phone: null,
+      address: null,
+      city: null,
+      region: null,
+      country: null,
+      postal_code: null,
+    })
+
+    const store = () => {
+      form.post('/organizations')
     }
-  },
-  methods: {
-    store() {
-      this.form.post('/organizations')
-    },
+
+    return { form, store }
   },
 })
 </script>

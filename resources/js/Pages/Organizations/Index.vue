@@ -60,7 +60,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent, ref, watch, PropType } from '@vue/composition-api'
+import { Inertia } from '@inertiajs/inertia'
 import { Head, Link } from '@inertiajs/inertia-vue'
 import Icon from '@/Shared/Icon.vue'
 import pickBy from 'lodash/pickBy'
@@ -69,8 +70,9 @@ import throttle from 'lodash/throttle'
 import mapValues from 'lodash/mapValues'
 import Pagination from '@/Shared/Pagination.vue'
 import SearchFilter from '@/Shared/SearchFilter.vue'
+import { Filters, ModelPagination } from '@/types'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Head,
     Icon,
@@ -80,30 +82,32 @@ export default Vue.extend({
   },
   layout: Layout,
   props: {
-    filters: Object,
-    organizations: Object,
+    filters: {
+      type: Object as PropType<Filters>,
+      required: true,
+    },
+    organizations: {
+      /* eslint-disable no-undef */
+      type: Object as PropType<ModelPagination<App.Models.Organization>>,
+      required: true,
+    },
   },
-  data() {
-    return {
-      form: {
-        search: this.filters.search,
-        trashed: this.filters.trashed,
-      },
+  setup(props) {
+    const form = ref({
+      search: props.filters.search,
+      trashed: props.filters.trashed,
+    })
+
+    // prettier-ignore
+    watch(form, throttle(() => {
+      Inertia.get('/organizations', pickBy(form.value), { preserveState: true })
+    }, 150), { deep: true })
+
+    const reset = () => {
+      form.value = mapValues(form.value, () => null)
     }
-  },
-  watch: {
-    form: {
-      deep: true,
-      handler: throttle(function () {
-        // @ts-ignore
-        this.$inertia.get('/organizations', pickBy(this.form), { preserveState: true })
-      }, 150),
-    },
-  },
-  methods: {
-    reset() {
-      this.form = mapValues(this.form, () => null)
-    },
+
+    return { form, reset }
   },
 })
 </script>

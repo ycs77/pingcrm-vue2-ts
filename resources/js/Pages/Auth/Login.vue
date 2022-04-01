@@ -23,32 +23,31 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Head } from '@inertiajs/inertia-vue'
+import { defineComponent } from '@vue/composition-api'
+import { Head, useForm } from '@inertiajs/inertia-vue'
 import Logo from '@/Shared/Logo.vue'
 import TextInput from '@/Shared/TextInput.vue'
 import LoadingButton from '@/Shared/LoadingButton.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Head,
     LoadingButton,
     Logo,
     TextInput,
   },
-  data() {
-    return {
-      form: this.$inertia.form({
-        email: 'johndoe@example.com',
-        password: 'secret',
-        remember: false,
-      }),
+  setup() {
+    const form = useForm('default', {
+      email: 'johndoe@example.com',
+      password: 'secret',
+      remember: false,
+    })
+
+    const login = () => {
+      form.post('/login')
     }
-  },
-  methods: {
-    login() {
-      this.form.post('/login')
-    },
+
+    return { form, login }
   },
 })
 </script>

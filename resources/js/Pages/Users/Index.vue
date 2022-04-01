@@ -66,7 +66,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent, ref, watch, PropType } from '@vue/composition-api'
+import { Inertia } from '@inertiajs/inertia'
 import { Head, Link } from '@inertiajs/inertia-vue'
 import Icon from '@/Shared/Icon.vue'
 import pickBy from 'lodash/pickBy'
@@ -74,8 +75,9 @@ import Layout from '@/Shared/Layout.vue'
 import throttle from 'lodash/throttle'
 import mapValues from 'lodash/mapValues'
 import SearchFilter from '@/Shared/SearchFilter.vue'
+import { Filters } from '@/types'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Head,
     Icon,
@@ -84,31 +86,33 @@ export default Vue.extend({
   },
   layout: Layout,
   props: {
-    filters: Object,
-    users: Array,
+    filters: {
+      type: Object as PropType<Filters>,
+      required: true,
+    },
+    users: {
+      /* eslint-disable no-undef */
+      type: Array as PropType<(App.Models.User & { photo: string | null })[]>,
+      required: true,
+    },
   },
-  data() {
-    return {
-      form: {
-        search: this.filters.search,
-        role: this.filters.role,
-        trashed: this.filters.trashed,
-      },
+  setup(props) {
+    const form = ref({
+      search: props.filters.search,
+      role: props.filters.role,
+      trashed: props.filters.trashed,
+    })
+
+    // prettier-ignore
+    watch(form, throttle(() => {
+      Inertia.get('/users', pickBy(form.value), { preserveState: true })
+    }, 150), { deep: true })
+
+    const reset = () => {
+      form.value = mapValues(form.value, () => null)
     }
-  },
-  watch: {
-    form: {
-      deep: true,
-      handler: throttle(function () {
-        // @ts-ignore
-        this.$inertia.get('/users', pickBy(this.form), { preserveState: true })
-      }, 150),
-    },
-  },
-  methods: {
-    reset() {
-      this.form = mapValues(this.form, () => null)
-    },
+
+    return { form, reset }
   },
 })
 </script>

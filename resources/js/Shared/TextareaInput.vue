@@ -1,35 +1,38 @@
 <template>
   <div>
     <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-    <textarea :id="id" ref="input" v-bind="$attrs" class="form-textarea" :class="{ error: error }" :value="value" @input="$emit('input', $event.target.value)" />
+    <textarea :id="id" ref="inputRef" v-bind="$attrs" class="form-textarea" :class="{ error: error }" :value="(value as string)" @input="$emit('input', $event.target.value)" />
     <div v-if="error" class="form-error">{{ error }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent, ref, PropType } from '@vue/composition-api'
 import { v4 as uuid } from 'uuid'
 
-export default Vue.extend({
+export default defineComponent({
   inheritAttrs: false,
   props: {
     id: {
       type: String,
-      default() {
-        return `textarea-input-${uuid()}`
-      },
+      default: () => `textarea-input-${uuid()}`,
     },
     error: String,
     label: String,
-    value: String,
+    value: String as PropType<string | null>,
   },
-  methods: {
-    focus() {
-      (this.$refs.input as HTMLInputElement).focus()
-    },
-    select() {
-      (this.$refs.input as HTMLInputElement).select()
-    },
+  emits: ['input'],
+  setup() {
+    const inputRef = ref<HTMLInputElement>(null!)
+
+    const focus = () => {
+      inputRef.value.focus()
+    }
+    const select = () => {
+      inputRef.value.select()
+    }
+
+    return { inputRef, focus, select }
   },
 })
 </script>

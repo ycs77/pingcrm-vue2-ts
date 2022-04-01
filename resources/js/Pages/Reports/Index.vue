@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from '@vue/composition-api'
 import { Head } from '@inertiajs/inertia-vue'
 import Layout from '@/Shared/Layout.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Head,
   },

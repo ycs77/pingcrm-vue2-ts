@@ -26,21 +26,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent, ref, reactive, watch } from '@vue/composition-api'
+import { usePage } from '@inertiajs/inertia-vue'
 
-export default Vue.extend({
-  data() {
-    return {
-      show: true,
-    }
-  },
-  watch: {
-    '$page.props.flash': {
-      handler() {
-        this.show = true
-      },
-      deep: true,
-    },
+export default defineComponent({
+  setup() {
+    const page = reactive(usePage())
+    const show = ref(false)
+
+    // prettier-ignore
+    watch(() => page.props.flash, () => {
+      show.value = true
+    }, { deep: true })
+
+    return { page, show }
   },
 })
 </script>

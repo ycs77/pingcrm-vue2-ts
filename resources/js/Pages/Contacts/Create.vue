@@ -35,14 +35,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Head, Link } from '@inertiajs/inertia-vue'
+import { defineComponent, PropType } from '@vue/composition-api'
+import { Head, Link, useForm } from '@inertiajs/inertia-vue'
 import Layout from '@/Shared/Layout.vue'
 import TextInput from '@/Shared/TextInput.vue'
 import SelectInput from '@/Shared/SelectInput.vue'
 import LoadingButton from '@/Shared/LoadingButton.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Head,
     Link,
@@ -52,29 +52,31 @@ export default Vue.extend({
   },
   layout: Layout,
   props: {
-    organizations: Array,
-  },
-  remember: 'form',
-  data() {
-    return {
-      form: this.$inertia.form({
-        first_name: '',
-        last_name: '',
-        organization_id: null,
-        email: '',
-        phone: '',
-        address: '',
-        city: '',
-        region: '',
-        country: '',
-        postal_code: '',
-      }),
-    }
-  },
-  methods: {
-    store() {
-      this.form.post('/contacts')
+    organizations: {
+      /* eslint-disable no-undef */
+      type: Array as PropType<App.Models.Organization[]>,
+      required: true,
     },
+  },
+  setup() {
+    const form = useForm('default', {
+      first_name: '',
+      last_name: '',
+      organization_id: null,
+      email: '',
+      phone: '',
+      address: '',
+      city: '',
+      region: '',
+      country: '',
+      postal_code: '',
+    })
+
+    const store = () => {
+      form.post('/contacts')
+    }
+
+    return { form, store }
   },
 })
 </script>

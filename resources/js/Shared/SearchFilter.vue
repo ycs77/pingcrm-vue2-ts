@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from '@vue/composition-api'
 import Dropdown from '@/Shared/Dropdown.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Dropdown,
   },
@@ -37,5 +37,6 @@ export default Vue.extend({
       default: 300,
     },
   },
+  emits: ['input', 'reset'],
 })
 </script>

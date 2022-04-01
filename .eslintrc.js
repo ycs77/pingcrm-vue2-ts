@@ -41,5 +41,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-empty-function': ['error', { allow: ['arrowFunctions'] }],
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
+  ignorePatterns: ['resources/js/models.d.ts'],
 }

@@ -1,6 +1,6 @@
-# Ping CRM (Vue 2 Options API x TS)
+# Ping CRM (Vue 2 Composition API x TS)
 
-PingCRM Vue x TS：Options API demo | [Composition API demo](https://github.com/ycs77/pingcrm-vue2-ts/tree/compsition-api)
+PingCRM Vue x TS：[Options API demo](https://github.com/ycs77/pingcrm-vue2-ts) | Composition API demo
 
 ---
 
@@ -15,6 +15,7 @@ Clone the repo locally:
 ```sh
 git clone https://github.com/ycs77/pingcrm-vue2-ts.git
 cd pingcrm-vue2-ts
+git checkout compsition-api
 ```
 
 Install PHP dependencies:
@@ -81,6 +82,14 @@ You're ready to go! Visit Ping CRM in your browser, and login with:
 
 - **Username:** johndoe@example.com
 - **Password:** secret
+
+## Generate Models Type Declaration
+
+If change the model fields, must be re-generate the models's type declaration file:
+
+```sh
+php artisan typescript:generate
+```
 
 ## Running tests
 

@@ -27,15 +27,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Head, Link } from '@inertiajs/inertia-vue'
+import { defineComponent } from '@vue/composition-api'
+import { Head, Link, useForm } from '@inertiajs/inertia-vue'
 import Layout from '@/Shared/Layout.vue'
 import FileInput from '@/Shared/FileInput.vue'
 import TextInput from '@/Shared/TextInput.vue'
 import SelectInput from '@/Shared/SelectInput.vue'
 import LoadingButton from '@/Shared/LoadingButton.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     FileInput,
     Head,
@@ -45,23 +45,21 @@ export default Vue.extend({
     TextInput,
   },
   layout: Layout,
-  remember: 'form',
-  data() {
-    return {
-      form: this.$inertia.form({
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        owner: false,
-        photo: null,
-      }),
+  setup() {
+    const form = useForm('default', {
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      owner: false,
+      photo: null,
+    })
+
+    const store = () => {
+      form.post('/users')
     }
-  },
-  methods: {
-    store() {
-      this.form.post('/users')
-    },
+
+    return { form, store }
   },
 })
 </script>

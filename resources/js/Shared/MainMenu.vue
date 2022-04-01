@@ -28,23 +28,27 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Link } from '@inertiajs/inertia-vue'
+import { defineComponent, reactive } from '@vue/composition-api'
+import { Link, usePage } from '@inertiajs/inertia-vue'
 import Icon from '@/Shared/Icon.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Icon,
     Link,
   },
-  methods: {
-    isUrl(...urls: string[]): boolean {
-      let currentUrl = this.$page.url.substr(1)
+  setup() {
+    const page = reactive(usePage())
+
+    const isUrl = (...urls: string[]) => {
+      let currentUrl = page.url.substr(1)
       if (urls[0] === '') {
         return currentUrl === ''
       }
       return !!urls.filter((url) => currentUrl.startsWith(url)).length
-    },
+    }
+
+    return { isUrl }
   },
 })
 </script>

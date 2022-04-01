@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from '@vue/composition-api'
 import { Link } from '@inertiajs/inertia-vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Link,
   },

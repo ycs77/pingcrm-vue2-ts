@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from '@vue/composition-api'
 import { Link } from '@inertiajs/inertia-vue'
 import ClientOnly from 'vue-client-only'
 import Icon from '@/Shared/Icon.vue'
@@ -65,7 +65,7 @@ import Dropdown from '@/Shared/Dropdown.vue'
 import MainMenu from '@/Shared/MainMenu.vue'
 import FlashMessages from '@/Shared/FlashMessages.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     Dropdown,
     FlashMessages,
